@@ -369,22 +369,8 @@ if __name__ == '__main__':
     auc = np.array(auc_loger)
     hit = np.array(hit_loger)
 
-    if len(rec_loger) == 0:
-        print("⚠ No evaluation results logged. Skipping best metric selection.")
-    else:
-        recs = np.array(rec_loger)
-
-        if recs.ndim == 2:
-            rec_col = recs[:, 0]
-        else:
-            rec_col = recs
-
-        best_rec_0 = np.max(rec_col)
-        idx = np.argmax(rec_col)
-
-        print(f"Best Recall@K: {best_rec_0:.4f} at epoch {idx}")
-
-
+    best_rec_0 = max(recs[:, 0])
+    idx = list(recs[:, 0]).index(best_rec_0)
 
     final_perf = "Best Iter=[%d]@[%.1f]\trecall=[%s], precision=[%s], hit=[%s], ndcg=[%s], auc=[%.5f]" % \
                  (idx, time() - t0, '\t'.join(['%.5f' % r for r in recs[idx]]),

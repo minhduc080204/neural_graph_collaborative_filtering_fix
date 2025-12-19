@@ -526,35 +526,21 @@ if __name__ == '__main__':
     ndcgs = np.array(ndcg_loger)
     hit = np.array(hit_loger)
 
-    if len(rec_loger) == 0:
-        print("⚠ No evaluation results logged. Skipping best metric selection.")
-    else:
-        recs = np.array(rec_loger)
+    best_rec_0 = max(recs[:, 0])
+    idx = list(recs[:, 0]).index(best_rec_0)
 
-        if recs.ndim == 2:
-            rec_col = recs[:, 0]
-        else:
-            rec_col = recs
-
-        best_rec_0 = np.max(rec_col)
-        idx = np.argmax(rec_col)
-
-        print(f"Best Recall@K: {best_rec_0:.4f} at epoch {idx}")
-
-
-    final_perf = "Best Iter=[%d]@[%.1f]\trecall=[%s], precision=[%s], hit=[%s], ndcg=[%s]" % \
+    final_perf = "Best Iter=[%d]@[%.1f]\trecall=[%s], precision=[%s], hit=[%s], ndcg=[%s], auc=[%.5f]" % \
                  (idx, time() - t0, '\t'.join(['%.5f' % r for r in recs[idx]]),
                   '\t'.join(['%.5f' % r for r in pres[idx]]),
                   '\t'.join(['%.5f' % r for r in hit[idx]]),
-                  '\t'.join(['%.5f' % r for r in ndcgs[idx]]))
+                  '\t'.join(['%.5f' % r for r in ndcgs[idx]]),
+                  auc[idx])
     print(final_perf)
 
     save_path = '%soutput/%s/%s.result' % (args.proj_path, args.dataset, model.model_type)
     ensureDir(save_path)
     f = open(save_path, 'a')
 
-    f.write(
-        'embed_size=%d, lr=%.4f, layer_size=%s, node_dropout=%s, mess_dropout=%s, regs=%s, adj_type=%s\n\t%s\n'
-        % (args.embed_size, args.lr, args.layer_size, args.node_dropout, args.mess_dropout, args.regs,
-           args.adj_type, final_perf))
+    f.write('embed_size=%d, lr=%.4f, layer_size=%s, keep_prob=%s, regs=%s, loss_type=%s, \n\t%s\n'
+            % (args.embed_size, args.lr, args.layer_size, args.keep_prob, args.regs, args.loss_type, final_perf))
     f.close()
