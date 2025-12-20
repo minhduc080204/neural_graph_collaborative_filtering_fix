@@ -174,9 +174,9 @@ if __name__ == '__main__':
             _, batch_loss, batch_mf_loss, batch_reg_loss = sess.run([model.opt, model.loss, model.mf_loss, model.reg_loss],
                                feed_dict={model.users: users, model.pos_items: pos_items,
                                           model.neg_items: neg_items})
-            loss += batch_loss
-            mf_loss += batch_mf_loss
-            reg_loss += batch_reg_loss
+            loss += float(np.mean(batch_loss))
+            mf_loss += float(np.mean(batch_mf_loss))
+            reg_loss += float(np.mean(batch_reg_loss))
             # print(time() - btime)
 
         if np.isnan(loss) == True:
@@ -186,9 +186,6 @@ if __name__ == '__main__':
         # print the test evaluation metrics each 10 epochs; pos:neg = 1:10.
         if (epoch + 1) % 10 != 0:
             if args.verbose > 0 and epoch % args.verbose == 0:
-                loss = float(np.mean(loss))
-                mf_loss = float(np.mean(mf_loss))
-                reg_loss = float(np.mean(reg_loss))
                 perf_str = 'Epoch %d [%.1fs]: train==[%.5f=%.5f + %.5f]' % (epoch, time()-t1, loss, mf_loss, reg_loss)
                 print(perf_str)
             continue

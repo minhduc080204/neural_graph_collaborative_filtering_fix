@@ -470,10 +470,9 @@ if __name__ == '__main__':
                                           model.node_dropout: eval(args.node_dropout),
                                           model.mess_dropout: eval(args.mess_dropout),
                                           model.neg_items: neg_items})
-            loss += batch_loss
-            mf_loss += batch_mf_loss
-            emb_loss += batch_emb_loss
-            reg_loss += batch_reg_loss
+            loss += float(np.mean(batch_loss))
+            mf_loss += float(np.mean(batch_mf_loss))
+            reg_loss += float(np.mean(batch_reg_loss))
 
         if np.isnan(loss) == True:
             print('ERROR: loss is nan.')
@@ -481,10 +480,7 @@ if __name__ == '__main__':
 
         # print the test evaluation metrics each 10 epochs; pos:neg = 1:10.
         if (epoch + 1) % 10 != 0:
-            if args.verbose > 0 and epoch % args.verbose == 0:
-                loss = float(np.mean(loss))
-                mf_loss = float(np.mean(mf_loss))
-                reg_loss = float(np.mean(reg_loss))
+            if args.verbose > 0 and epoch % args.verbose == 0:                
                 perf_str = 'Epoch %d [%.1fs]: train==[%.5f=%.5f + %.5f]' % (
                     epoch, time() - t1, loss, mf_loss, reg_loss)
                 print(perf_str)
