@@ -405,6 +405,6 @@ if __name__ == '__main__':
     ensureDir(save_path)
     f = open(save_path, 'a')
 
-    f.write('embed_size=%d, lr=%.4f, layer_size=%s, regs=%s, loss_type=%s, \n\t%s\n'
-            % (args.embed_size, args.lr, args.layer_size, args.regs, args.loss_type, final_perf))
+    f.write('embed_size=%d, lr=%.4f, layer_size=%s, regs=%s, \n\t%s\n'
+            % (args.embed_size, args.lr, args.layer_size, args.regs, final_perf))
     f.close()
