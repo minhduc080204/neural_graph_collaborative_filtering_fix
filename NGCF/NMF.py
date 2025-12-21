@@ -4,8 +4,6 @@ Tensorflow Implementation of the baseline of "Neural Collaborative Filtering, He
 Wang Xiang et al. Neural Graph Collaborative Filtering. In SIGIR 2019.
 @author: Xiang Wang (xiangwang@u.nus.edu)
 '''
-import tensorflow.compat.v1 as tf
-tf.disable_v2_behavior()
 
 from utility.helper import *
 import numpy as np
@@ -14,9 +12,30 @@ from utility.batch_test import *
 import os
 import sys
 # from tensorflow.contrib.layers.python.layers import batch_norm as batch_norm
-batch_norm = tf.layers.batch_normalization
-os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
+def batch_norm(
+    x,
+    decay=0.9,
+    center=True,
+    scale=True,
+    updates_collections=None,
+    is_training=True,
+    reuse=None,
+    trainable=True,
+    scope=None
+):
+    with tf.variable_scope(scope or 'batch_norm', reuse=reuse):
+        bn = tf.keras.layers.BatchNormalization(
+            momentum=decay,
+            center=center,
+            scale=scale,
+            trainable=trainable
+        )
+        return bn(x, training=is_training)
+
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 class NMF(object):
     def __init__(self, data_config, pretrain_data):
         self.model_type = 'nmf'
