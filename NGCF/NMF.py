@@ -330,7 +330,8 @@ if __name__ == '__main__':
             _, batch_loss, batch_mf_loss, batch_emb_loss, batch_reg_loss = sess.run([model.opt, model.loss, model.mf_loss, model.emb_loss, model.reg_loss],
                                feed_dict={model.users: users, model.pos_items: pos_items,
                                           model.neg_items: neg_items,
-                                          model.dropout_keep: eval(args.keep_prob),
+                                          model.dropout_keep: 1.0,
+                                        #   model.dropout_keep: eval(args.keep_prob),
                                           model.train_phase: True})
             loss += float(np.mean(batch_loss))
             mf_loss += float(np.mean(batch_mf_loss))

@@ -539,6 +539,8 @@ if __name__ == '__main__':
     ensureDir(save_path)
     f = open(save_path, 'a')
 
-    f.write('embed_size=%d, lr=%.4f, layer_size=%s, keep_prob=%s, regs=%s, loss_type=%s, \n\t%s\n'
-            % (args.embed_size, args.lr, args.layer_size, args.keep_prob, args.regs, args.loss_type, final_perf))
+    f.write(
+        'embed_size=%d, lr=%.4f, layer_size=%s, node_dropout=%s, mess_dropout=%s, regs=%s, adj_type=%s\n\t%s\n'
+        % (args.embed_size, args.lr, args.layer_size, args.node_dropout, args.mess_dropout, args.regs,
+           args.adj_type, final_perf))
     f.close()
