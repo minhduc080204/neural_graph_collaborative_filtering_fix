@@ -88,3 +88,17 @@ We provide two processed datasets: Gowalla and Amazon-book.
 ## Acknowledgement
 
 This research is supported by the National Research Foundation, Singapore under its International Research Centres in Singapore Funding Initiative. Any opinions, findings and conclusions or recommendations expressed in this material are those of the author(s) and do not reflect the views of National Research Foundation, Singapore.
+
+n_users=52643, 
+n_items=91599
+n_interactions=2984108
+n_train=2380730, 
+n_test=603378,
+sparsity=0.00062
+
+n_users=29858, 
+n_items=40981
+n_interactions=1027370
+n_train=810128, 
+n_test=217242, 
+sparsity=0.00084
